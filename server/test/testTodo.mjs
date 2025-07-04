@@ -22,3 +22,7 @@ describe('POST /api/todos', () => {
   });
 });
 
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
