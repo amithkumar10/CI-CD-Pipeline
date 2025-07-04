@@ -27,11 +27,11 @@ jobs:
         run: npm install
 
       - name: 🔍 Debug MONGO_URI value (temporary)
-        run: echo "MONGO_URI=$MONGO_URI"
+        run: echo "MONGODB_URI=$MONGODB_URI"
         env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: 🧪 Run Jest tests in ESM mode
         run: npm test
         env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
