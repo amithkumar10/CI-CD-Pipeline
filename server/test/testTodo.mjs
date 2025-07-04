@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from '../index.js';
+import mongoose from 'mongoose';
  // path to your Express app
 
 describe('GET /api/todos', () => {
