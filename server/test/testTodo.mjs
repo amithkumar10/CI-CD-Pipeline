@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../index.js';
- // path to your Express app
+import mongoose from 'mongoose';
+
 
 describe('GET /api/todos', () => {
   it('should return 200 and an array of todos', async () => {
@@ -20,5 +21,11 @@ describe('POST /api/todos', () => {
     expect(res.statusCode).toBe(201);
     expect(res.body.title).toBe('Test Todo');
   });
+});
+
+
+
+afterAll(async () => {
+  await mongoose.connection.close();
 });
 
