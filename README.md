@@ -1,4 +1,4 @@
-# 📋 Full-Stack Todo List Application with Implementation of CI/CD Piplines
+# 📋 Full-Stack Todo List Application
 
 A beautiful, feature-rich todo list application built with React, Node.js, Express, and MongoDB. This application demonstrates modern full-stack development practices with a clean, responsive design.
 
