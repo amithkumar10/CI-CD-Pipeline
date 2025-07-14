@@ -15,23 +15,26 @@ jobs:
         working-directory: server
 
     steps:
-      - name: ⬇️ Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🟢 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: 🔍 Debug MONGODB_URI value (temporary)
+      - name:  Debug MONGODB_URI value (temporary)
         run: echo "MONGODB_URI=$MONGODB_URI"
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
-      - name: 🧪 Run Jest tests in ESM mode
+      - name:  Run Jest tests in ESM mode
         run: npm test
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+      
+        
