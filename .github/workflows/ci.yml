@@ -1,40 +1,58 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - dev
+      - test
+      - prod
 
 jobs:
-  backend-tests:
+  build-and-test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: server
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
 
-      - name: Install dependencies
-        run: npm install
+      - name: Build and start services with Docker Compose
+        run: docker-compose -f docker-compose.yml up --build -d
 
-      - name:  Debug MONGODB_URI value (temporary)
-        run: echo "MONGODB_URI=$MONGODB_URI"
-        env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      - name: Wait for backend to be ready
+        run: sleep 10
 
-      - name:  Run Jest tests in ESM mode
-        run: npm test
-        env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      - name: Run Jest tests inside backend container
+        run: docker exec toDoBackend npm test
 
-      
-        
+      - name: Stop and remove containers
+        if: always()
+        run: docker-compose -f docker-compose.yml down
+
+  deploy-dev:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Deploy to Dev Server
+        run: echo "Deploying to DEV server..."
+
+
+
+  deploy-test:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/test'
+    steps:
+      - name: Deploy to Test Server
+        run: echo "Deploying to TEST server..."
+
+  deploy-prod:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/prod'
+    steps:
+      - name: Deploy to Production Server
+        run: echo "Deploying to PROD server..."
