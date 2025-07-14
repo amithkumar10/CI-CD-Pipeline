@@ -20,6 +20,8 @@ jobs:
 
       - name: Build and start services with Docker Compose
         run: docker compose -f compose.yaml up --build -d
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: Wait for backend to be ready
         run: sleep 10
