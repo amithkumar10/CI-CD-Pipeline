@@ -1,11 +1,9 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - dev
-      - test
-      - prod
 
 jobs:
   build-and-test:
@@ -32,27 +30,3 @@ jobs:
       - name: Stop and remove containers
         if: always()
         run: docker compose -f compose.yaml down
-
-  deploy-dev:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev'
-    steps:
-      - name: Deploy to Dev Server
-        run: echo "Deploying to DEV server..."
-
-  deploy-test:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/test'
-    steps:
-      - name: Deploy to Test Server
-        run: echo "Deploying to TEST server..."
-
-  deploy-prod:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/prod'
-    steps:
-      - name: Deploy to Production Server
-        run: echo "Deploying to PRODUCTION server..."
