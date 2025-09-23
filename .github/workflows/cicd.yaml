@@ -37,7 +37,7 @@ jobs:
         if: always()
         run: docker compose -f compose.yaml down
 
-  test-and-publish:
+  publish-to-ghcr:
     if: github.ref == 'refs/heads/test'
     runs-on: ubuntu-latest
     needs: build-and-test
