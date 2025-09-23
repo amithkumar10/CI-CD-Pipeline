@@ -38,7 +38,6 @@ jobs:
         if: always()
         run: docker compose -f compose.yaml down
 
-  # 2. For test branch → build, test, push to GHCR
   build-test-publish:
     if: github.ref == 'refs/heads/test'
     runs-on: ubuntu-latest
