@@ -9,7 +9,6 @@ on:
       - test
 
 jobs:
-  # 1. For dev PRs → only build & test
   build-and-test:
     if: github.event_name == 'pull_request' && github.base_ref == 'dev'
     runs-on: ubuntu-latest
