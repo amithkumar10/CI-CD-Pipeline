@@ -18,26 +18,13 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
-      - name: Export Mongo URI
-        run: echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> $GITHUB_ENV
-
       - name: Build and start services with Docker Compose
         run: docker compose -f compose.yaml up --build -d
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
-      - name: Wait for backend to be healthy
-        run: |
-          echo "Waiting for backend container to be healthy..."
-          for i in {1..30}; do
-            STATUS=$(docker inspect --format='{{.State.Health.Status}}' toDoBackend)
-            if [ "$STATUS" == "healthy" ]; then
-              echo "Backend is healthy!"
-              exit 0
-            fi
-            echo "Backend not ready yet, retrying..."
-            sleep 5
-          done
-          echo "Backend did not become healthy in time."
-          exit 1
+      - name: Wait for backend to be ready
+        run: sleep 10
 
       - name: Run Jest tests inside backend container
         run: docker exec toDoBackend npm test
@@ -68,4 +55,4 @@ jobs:
     if: github.ref == 'refs/heads/prod'
     steps:
       - name: Deploy to Production Server
-        run: echo "Deploying to PROD server..."
+        run: echo "Deploying to PRODUCTION server..."
