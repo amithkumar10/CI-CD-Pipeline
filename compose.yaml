@@ -16,4 +16,4 @@ services:
     ports:
       - "5000:5000"
     environment:
-    - MONGODB_URI=${MONGODB_URI}
+    - MONGODB_URI=${MONGODB_URI??mongodb+srv://amith:Hello%40mith18@mongodb.tyrxhwb.mongodb.net/To-Do}
