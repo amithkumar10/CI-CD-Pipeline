@@ -70,7 +70,7 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: project/infra/test-vm
+        working-directory: infra/test-vm
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -var="ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" -var="location=Central India"
