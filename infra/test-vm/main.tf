@@ -76,7 +76,7 @@ resource "azurerm_linux_virtual_machine" "test" {
   admin_username      = "azureuser"
   network_interface_ids = [azurerm_network_interface.test.id]
 
-  zone = "1"
+  zone = "2"
 
   admin_ssh_key {
     username   = "azureuser"
