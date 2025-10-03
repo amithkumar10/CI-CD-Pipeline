@@ -55,8 +55,11 @@ jobs:
 
       - name: Build and push Docker image to GHCR
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/todo-app-backend:${{ github.run_number }} ./server
-          docker push ghcr.io/${{ github.repository_owner }}/todo-app-backend:${{ github.run_number }}
+              IMAGE=ghcr.io/${{ github.repository_owner }}/todo-app-backend
+              docker build -t $IMAGE:${{ github.run_number }} -t $IMAGE:test-latest ./server
+              docker push $IMAGE:${{ github.run_number }}
+              docker push $IMAGE:test-latest
+
 
   create-test-vm:
     if: github.event_name == 'push' && github.ref == 'refs/heads/test'
