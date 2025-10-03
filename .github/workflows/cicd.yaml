@@ -127,10 +127,7 @@ jobs:
             echo ${{ secrets.GITHUB_TOKEN }} | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             # Pull, stop, remove, and run container
-            docker pull ghcr.io/${{ github.repository_owner }}/todo-app-backend:test-latest
-            docker stop todo-backend || true
-            docker rm todo-backend || true
-            docker run -d --name todo-backend -p 80:5000 \
-              --pull always \
-              -e MONGODB_URI=${{ secrets.MONGODB_URI }} \
-              ghcr.io/${{ github.repository_owner }}/todo-app-backend:test-latest
+            sudo docker pull ghcr.io/${{ github.repository_owner }}/todo-app-backend:test-latest
+            sudo docker stop todo-backend || true
+            sudo docker rm todo-backend || true
+            sudo docker run -d --name todo-backend -p 80:5000 --pull always -e MONGODB_URI=my_mongo_uri ghcr.io/myusername/todo-app-backend:test-latest
